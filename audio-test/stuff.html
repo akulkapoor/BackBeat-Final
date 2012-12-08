@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<!-- INCLUDE SPEAKKER -->
+		<script src="http://code.jquery.com/jquery-1.8.2.min.js"> </script>
+		<link rel="stylesheet" href="speakker.css" type="text/css" media="screen">
+		<link rel="stylesheet" href="mspeakker.css" type="text/css" media="screen">
+		<script type="text/javascript" src="projekktor.min.js"></script> 
+		<script type="text/javascript" src="speakker.min.js"></script> 
+<!-- That´s it -->
+	</head>
+
+	<body>
+		<div class="speakkerSmall"></div>
+	</body>
+
+
+	<script type="text/javascript">
+		$(document).ready(function() {    
+    		$('.speakkerSmall').speakker({
+        		file: 'Set You Free.mp3',
+        		title: 'one single MP3',
+        		theme: 'dark',
+        		playlist: true,
+        		poster: "BackBeatLogoEdited3.png"
+    		});
+    	});
+	</script>
+</html>

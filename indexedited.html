@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<title>BackBeat</title>
+		<link href="app.css" rel="stylesheet" type="text/css"/>
+		<script src="http://code.jquery.com/jquery-1.8.2.min.js"> </script>
+		<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"> </script>
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css"/>
+		<script type="text/javascript" src="js/demo.js"></script>
+		<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
+		<script type="text/javascript" src="js/jplayer.playlist.min.js"></script>
+	</head>
+
+
+
+<!--  -->
+
+
+<body>
+	<div data-role="page" data-title="simArtists" id="simArtists">
+		<div data-role="header" data-position="fixed"> <h1>What would you like to hear?
+		<img src = "BackBeatLogoEdited3.png" id = "logo"></h1> </div>
+			<div data-role="content">
+				<form method="get" id="search">
+	  				<input id="artistSearch" type="text" size="40" placeholder = "Artist..."/> <br>
+	  				<input id="locationSearch" type="text" size="40" placeholder = "Location..."/> <br>
+	  				<input type="button"value="Search" onclick="doSearch();">
+	  				<br>
+	    		</form>
+	    		<div id="similarArtists" class="content">
+				</div>
+			</div>
+			<div data-role="footer" data-position="fixed">
+				<div data-role="navbar">
+					<ul>
+						<li><a href="#simArtists" class="ui-btn-active ui-state-persist" data-transition="none"> Artists</a></li>
+						<li><a href="#simLocArtists" data-transition="none">Local </a></li>
+						<li><a href="#Shows" data-transition="none"> Shows </a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+    
+    <!--  -->
+	
+	<div data-role="page" data-title="simLocArtists" id="simLocArtists">
+		<div data-role="header" data-position="fixed"> <h1>What would you like to hear?
+		<img src = "BackBeatLogoEdited3.png" id = "logo1"></h1> </div>
+			<div data-role="content">
+				<form method="get" id="search1">
+	  				<input id="artistSearch1" type="text" size="40" placeholder = "Artist..."/> <br>
+	  				<input id="locationSearch1" type="text" size="40" placeholder = "Location..."/> <br>
+	  				<input type="button"value="Search" onclick="doSearch();">
+	  				<br>
+	    		</form>
+	    		<div id="similarLocalArtists" class="content">
+				</div>
+			</div>
+			<div data-role="footer" data-position="fixed">
+				<div data-role="navbar">
+					<ul>
+						<li><a href="#simArtists" data-transition="none">Artists</a></li>
+						<li><a href="#simLocArtists" class="ui-btn-active ui-state-persist" data-transition="none">Local</a></li>
+						<li><a href="#Shows" data-transition="none">Shows</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+	<!--  -->
+
+	<div data-role="page" data-title="Shows" id="Shows">
+		<div data-role="header" data-position="fixed"> <h1>What would you like to hear?
+		<img src = "BackBeatLogoEdited3.png" id = "logo2"></h1> </div>
+			<div data-role="content">
+				<form method="get" id="search2">
+	  				<input id="artistSearch2" type="text" size="40" placeholder = "Artist..."/> <br>
+	  				<input id="locationSearch2" type="text" size="40" placeholder = "Location..."/> <br>
+	  				<input type="button"value="Search" onclick="doSearch();">
+	  				<br>
+	    		</form>
+	    		<div id="shows" class="content">
+				</div>
+			</div>
+			<div data-role="footer" data-position="fixed">
+				<div data-role="navbar">
+					<ul>
+						<li><a href="#simArtists">Artists</a></li>
+						<li><a href="#simLocArtists">Local</a></li>
+						<li><a href="#Shows" class="ui-btn-active ui-state-persist"> Shows</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+	<!--  -->
+
+	<div data-role="page" data-title="Band" id="Band">
+			<div data-role="header" data-position="fixed"> 
+				<a href="#simArtists" data-role="button"> Back </a>
+			</div>
+
+			<div data-role="content" id = "bandInfo" class= "blackBox">
+				
+
+				<div id="skin-loader"></div>
+		
+		<div id="skin-wrapper" data-skin-name="premium-pixels">
+				
+			<div id="jquery_jplayer_1" class="jp-jplayer"></div>
+			
+			<div id="jp_container_1" class="jp-audio">
+				<div class="jp-type-playlist">
+					<div class="jp-gui jp-interface">
+						<ul class="jp-controls">
+							<li><a href="javascript:;" class="jp-previous" tabindex="1">previous</a></li>
+							<li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
+							<li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
+							<li><a href="javascript:;" class="jp-next" tabindex="1">next</a></li>
+							<li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>
+							<li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
+							<li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
+							<li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></li>
+						</ul>
+						<div class="jp-progress">
+							<div class="jp-seek-bar">
+								<div class="jp-play-bar"></div>
+							</div>
+						</div>
+						<div class="jp-volume-bar">
+							<div class="jp-volume-bar-value"></div>
+						</div>
+						<div class="jp-time-holder">
+							<div class="jp-current-time"></div>
+							<div class="jp-duration"></div>
+						</div>
+						<ul class="jp-toggles">
+							<li><a href="javascript:;" class="jp-shuffle" tabindex="1" title="shuffle">shuffle</a></li>
+							<li><a href="javascript:;" class="jp-shuffle-off" tabindex="1" title="shuffle off">shuffle off</a></li>
+							<li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat">repeat</a></li>
+							<li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off">repeat off</a></li>
+						</ul>
+					</div>
+					<div class="jp-playlist">
+						<ul>
+							<li></li>
+						</ul>
+					</div>
+					<div class="jp-no-solution">
+						<span>Update Required</span>
+						To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+					</div>
+				</div>
+			</div><!-- .jp-audio -->
+			
+			
+		</div><!-- .wrapper -->
+	</div>
+
+			<div data-role="footer" data-position="fixed">
+				<div data-role="navbar">
+					<ul>
+						<li><a href="#Band" class="ui-btn-active ui-state-persist" data-transition="none">Music</a></li>
+						<li><a href="#Bio" data-transition="none">Bio</a></li>
+						<li><a href="#Links" data-transition="none">Links</a></li>
+						<li><a href="#Tickets" data-transition="none"> Tickets</a></li>
+					</ul>
+				</div>
+
+
+			</div>
+		</div>
+
+	<!--  -->	
+
+	<div data-role="page" data-title="Bio" id="Bio">
+			<div data-role="header" data-position="fixed"> 
+				<a href="#simArtists" data-role="button"> Back </a>
+			</div>
+
+			<div data-role="content" id = "bioInfo" class= "blackBox">
+
+			</div>
+
+			<div data-role="footer" data-position="fixed">
+				<div data-role="navbar">
+					<ul>
+						<li><a href="#Band" data-transition="none">Music</a></li>
+						<li><a href="#Bio" class="ui-btn-active ui-state-persist" data-transition="none">Bio</a></li>
+						<li><a href="#Links" data-transition="none">Links</a></li>
+						<li><a href="#Tickets" data-transition="none"> Tickets</a></li>
+					</ul>
+				</div>
+
+
+			</div>
+		</div>
+
+<!-- -->
+
+	<div data-role="page" data-title="Links" id="Links">
+			<div data-role="header" data-position="fixed"> 
+				<a href="#simArtists" data-role="button"> Back </a>
+			</div>
+
+			<div data-role="content" id = "linkInfo" class= "blackBox">
+
+			</div>
+
+			<div data-role="footer" data-position="fixed">
+				<div data-role="navbar">
+					<ul>
+						<li><a href="#Band" data-transition="none">Music</a></li>
+						<li><a href="#Bio" data-transition="none">Bio</a></li>
+						<li><a href="#Links"  class="ui-btn-active ui-state-persist" data-transition="none">Links</a></li>
+						<li><a href="#Tickets" data-transition="none"> Tickets</a></li>
+					</ul>
+				</div>
+
+
+			</div>
+		</div>
+
+<!-- -->
+
+	<div data-role="page" data-title="Tickets" id="Tickets">
+			<div data-role="header" data-position="fixed"> 
+				<a href="#simArtists" data-role="button"> Back </a>
+			</div>
+
+			<div data-role="content" id = "ticketInfo" class= "blackBox">
+
+			</div>
+
+			<div data-role="footer" data-position="fixed">
+				<div data-role="navbar">
+					<ul>
+						<li><a href="#Band" data-transition="none">Music</a></li>
+						<li><a href="#Bio" data-transition="none">Bio</a></li>
+						<li><a href="#Links" data-transition="none">Links</a></li>
+						<li><a href="#Tickets" class="ui-btn-active ui-state-persist" data-transition="none"> Tickets</a></li>
+					</ul>
+				</div>
+
+
+			</div>
+		</div>
+
+
+
+
+
+	<script type="text/javascript" src = "app2.js"></script>
+</body>
+</html>
