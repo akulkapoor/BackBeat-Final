@@ -12,12 +12,13 @@ h1.ui-title {
 	padding: 0px;
 }
 
-#simArtists {
+.ui-page {
 	overflow: auto;
+	min-height: 120% !important;
 }
 
 #similarArtists {
-	min-height: 100%;
+	min-height: 120%;
 }
 
 .ui-header .ui-title, .ui-footer .ui-title {
@@ -233,7 +234,7 @@ img:active {
 	width: 50px;
 	height: 25px;
 	float: right;
-	margin-right: 60px;
+	margin-right: 20px;
 	margin-top: 5px;
 }
 
@@ -304,12 +305,16 @@ img:active {
 }
 
 #MyBands {
-	background-size: contain;
+	/*background-size: contain;*/
 	background-image:url("BackBeatIcon.png");
 	background-repeat:no-repeat;
 	background-attachment:fixed;
-	background-position:center; 
+	background-position:center;
 
+}
+
+#bandButton {
+	display: inline-block;
 }
 
 .echoLink {

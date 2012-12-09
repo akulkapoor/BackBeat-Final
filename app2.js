@@ -72,7 +72,6 @@ var data2;
 
 			function(data) {
 				data2 = data;
-				console.log(data2);
 				//$("#linkInfo").html("");
 				var linkNames = ["Amazon Music","Last FM","Musicbrainz Page","MySpace","Wikipedia"];
 				var count = 0
@@ -510,7 +509,6 @@ callBack2 = function(data) {
 			trackList.push({title:trackName,mp3:item.previewUrl})
 		}
 	});
-	console.log(trackList);
 	
 	//Code from jPlayer
 	new jPlayerPlaylist({
@@ -624,7 +622,6 @@ if ($.mobile.activePage.attr("id") == "simArtists"){
 		else if ($.mobile.activePage.attr("id") == "Shows"){
 			currentLocation = $("#locationSearch2").val();
 		}
-		alert(currentLocation);
 
 var data1;
 if (currentLocation !== "") {
