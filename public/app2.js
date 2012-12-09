@@ -59,6 +59,48 @@ text.yVel = 0;
 var name;
 var bandExists;
 
+$(document).bind("pagebeforechange",onPageChange)
+
+function onPageChange(event,data) {
+	var a = data.toPage.toString()
+	if (a[0] !== "[" && data.options.fromPage != undefined) {
+		a = a.split("#")[1];
+		var b = data.options.fromPage.attr('id');
+	if (a === "simArtists" || a === "simLocArtists" || a === "Shows") {
+		if (b === 'simArtists') {
+			if(a === 'simLocArtists') {
+				$("#artistSearch1").val($("#artistSearch").val())
+				$("#locationSearch1").val($("#locationSearch").val())
+			}
+			if(a === 'Shows') {
+				$("#artistSearch2").val($("#artistSearch").val())
+				$("#locationSearch2").val($("#locationSearch").val())
+			}
+		}
+		if (b === 'simLocArtists') {
+			if(a === 'simArtists') {
+				$("#artistSearch").val($("#artistSearch1").val())
+				$("#locationSearch").val($("#locationSearch1").val())
+			}
+			if(a === 'Shows') {
+				$("#artistSearch2").val($("#artistSearch1").val())
+				$("#locationSearch2").val($("#locationSearch1").val())
+			}
+		}
+		if (b === 'Shows') {
+			if(a === 'simArtists') {
+				$("#artistSearch").val($("#artistSearch2").val())
+				$("#locationSearch").val($("#locationSearch2").val())
+			}
+			if(a === 'simLocArtists') {
+				$("#artistSearch1").val($("#artistSearch2").val())
+				$("#locationSearch1").val($("#locationSearch2").val())
+			}
+		}
+	}
+	}
+}
+
 getLinks=function(band){
 
 var data2;
@@ -93,6 +135,45 @@ var data2;
 			});
 		});
 };
+
+function nameSeparate(name) {
+	var newIndex = 0;
+	var size = 0;
+	var newArray = [];
+	var newString = "";
+	var words = name.split(" ");
+	for (var x = 0; x<words.length;x++) {
+		if (size + words[x].length<= 10) {
+			if (size !== 0) {
+				newArray[newIndex] += " "
+				newArray[newIndex] += words[x]
+				size += words[x].length + 1;
+			}
+			else {
+				newArray[newIndex] = words[x];
+				size += words[x].length;	
+			}
+		}
+		else {
+			if (size===0) {
+				newArray[newIndex] = words[x];
+				newIndex++;
+			}
+			else {
+				newIndex++;
+				newArray[newIndex] = words[x];
+				size = words[x].length;
+			}
+		} 
+	}
+	for (var y = 0; y<newArray.length; y++) {
+		if (y !== 0) {
+			newString += "<br>"
+		}
+		newString += newArray[y];
+	}
+	return newString;
+}
 
 function replaceAll(Source,stringToFind,stringToReplace){
   var temp = Source;
@@ -463,7 +544,6 @@ setInfo = function(object,band,container) {
 //Executes a Search and calls particle explosion
 doSearch = function() {
 	text.txt = $("#artistSearch").val();
-	$('#picture').html('')
 	simArts();
 	simLocArts();
 	allShows();
@@ -664,7 +744,7 @@ if (currentLocation !== "") {
 			link.className = "link";
 			link.innerHTML = "<a id='" + item.name  + "' data-big=" + 
 					item.image[2]["#text"] + " band='" + artist.id + "' link='"
-					 +item.url + "' href='#Band'>" + artist.id + "</div>";
+					 +item.url + "' href='#Band'>" + nameSeparate(artist.id) + "</div>";
 			var css = document.createElement("div");
 			css.className = "space";
 			artist.appendChild(css);
@@ -682,8 +762,8 @@ if (currentLocation !== "") {
 
 //Populates Similar artists tab - Last FM API
 simArts=function(){
-
 var data1;
+var data2;
 var currentArtist;
 		if ($.mobile.activePage.attr("id") == "simArtists"){
 			currentArtist = $("#artistSearch").val();
@@ -694,7 +774,48 @@ var currentArtist;
 		else if ($.mobile.activePage.attr("id") == "Shows"){
 			currentArtist = $("#artistSearch2").val();
 		}
+			$.getJSON('http://ws.audioscrobbler.com/2.0/',
+			{
+				method: "artist.getInfo",
+				api_key: "8319d81dde2f49bad5c65a0ce2361a31",
+				format: "json",
+				artist: currentArtist,
+			},
+			function(data) {
+				data2 = data;
+				console.log(data2);
+				var musician = document.createElement("div");
+					musician.className = "artist";
+					musician.id = data2.artist.name;
 
+					var img = $("<div>");
+					img.addClass("img");
+					var imgTag = $("<img>");
+					imgTag.attr("src",data2.artist.image[2]["#text"]);
+					imgTag.attr("data-big",data2.artist.image[4]["#text"]);
+					imgTag.attr("band", data2.artist.name);
+					imgTag.attr("link",data2.artist.url); 
+					var picLink = $("<a>");
+					picLink.attr("href","#Band");
+					picLink.append(imgTag);
+					img.append(picLink);
+
+
+
+					var link = document.createElement("div");
+					link.className = "link";
+					link.innerHTML = "<a id='" + data2.artist.name  + "' data-big=" + 
+					data2.artist.image[4]["#text"] + " band='" + data2.artist.name + "' link='"
+					 +data2.artist.url + "' href='#Band'>" + nameSeparate(data2.artist.name) + "</div>";
+					var css = document.createElement("div");
+					css.className = "space";
+					musician.appendChild(css);
+					musician.appendChild(link);
+					$(musician).append(img);
+					musician.innerHTML += "<br>"
+					console.log(musician);
+					$("#similarArtists").html("");
+					$("#similarArtists").append(musician);
 			$.getJSON('http://ws.audioscrobbler.com/2.0/',
 			{
 				method: "artist.getSimilar",
@@ -705,16 +826,14 @@ var currentArtist;
 			},
 
 			function(data) {
+				console.log($("#similarArtists").html());
 				data1 = data;
-				$("#similarArtists").html("");
-
-
 				$.each(data1.similarartists.artist, function(i, item) {
 				
 					
-					var artist = document.createElement("div");
-					artist.className = "artist";
-					artist.id = item.name;
+					var artist1 = document.createElement("div");
+					artist1.className = "artist";
+					artist1.id = item.name;
 
 					var img = $("<div>");
 					img.addClass("img");
@@ -734,20 +853,22 @@ var currentArtist;
 					link.className = "link";
 					link.innerHTML = "<a id='" + item.name  + "' data-big=" + 
 					item.image[4]["#text"] + " band='" + item.name + "' link='"
-					 +item.url + "' href='#Band'>" + item.name + "</div>";
+					 +item.url + "' href='#Band'>" + nameSeparate(item.name) + "</div>";
 					var css = document.createElement("div");
 					css.className = "space";
-					artist.appendChild(css);
-					artist.appendChild(link);
-					$(artist).append(img);
-					artist.innerHTML += "<br>"
-						
-					$("#similarArtists").append(artist)
+					artist1.appendChild(css);
+					artist1.appendChild(link);
+					$(artist1).append(img);
+					artist1.innerHTML += "<br>"
+					console.log($("#similarArtists").html());	
+					$("#similarArtists").append(artist1)
+					console.log($("#similarArtists").html());
 					
 				
 			});
 			$("#similarArtists").css('height','100%')
 		});
+	})
 }
 
 //Populates similar artists and cross-references by location - Last FM API
@@ -830,7 +951,7 @@ var currentArtist;
 							link.className = "link";
 							link.innerHTML = "<a id='" + item.name  + "' data-big=" + 
 							item.image[4]["#text"] + " band='" + item.name + "' link='"
-					 		+item.url + "' href='#Band'>" + item.name + "</div>";
+					 		+item.url + "' href='#Band'>" + nameSeparate(item.name) + "</div>";
 							var css = document.createElement("div");
 							css.className = "space";
 							artist.appendChild(css);
