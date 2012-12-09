@@ -123,10 +123,64 @@ bandLike = function(data) {
 
 	//Picture Clicks
 	$('.content img').live("click",function(){
+		console.log($(this).attr("event"));
+
 
 		
+		var big = $(this.innerHTML).attr("data-big");
+		var band = $(this.innerHTML).attr("band");
 
 		$('#bandInfo').html('')
+
+		$(".chSmall").attr("href","#Bio");
+		$(".chSmall").html("Bio");
+
+		if ($(this).attr("event")==="true"){
+
+			$(".chSmall").attr("href","#eventPage");
+			$(".chSmall").html("Event Information");
+
+			$("ul").listview("refresh");
+
+
+
+
+
+			var big = $(this).attr("data-big");
+			var band = $(this).attr("band");
+
+			var city = $(this).attr("city");
+			var country = $(this).attr("country");
+			var theatre = $(this).attr("theatre");
+			var date = $(this).attr("date");
+
+
+			$('#eventPage').css("background-image","url(" + big + ")");
+			$('#eventPage').css("background-size", "cover");
+			$('#eventPage').css("background-position", "center");
+			$('#eventPage').css("-webkit-background-size", "cover");
+			$('#eventPage').css("-moz-background-size", "cover");
+			$('#eventPage').css("-o-background-size", "cover");
+			$('#eventPage').css("-o-background-size", "cover");
+			if (bandExists) {
+				var likeButton = $('<input type="button" value="Liked!" onclick="liked();" class="likeButton" type="button">');
+			}
+			else{
+				var likeButton = $('<input type="button" value="Like" onclick="liked();" class="likeButton" type="button">');
+			}
+			$('#eventInfo').empty();
+			$('#eventInfo').append("<div id = bandName>" + band + "</div>");
+			$('#eventInfo').append(likeButton);
+			likeButton.button();
+			$('#eventInfo').append("<div id = bandName>" + theatre + "</div>");
+			$('#eventInfo').append("<div id = bandName>" + city + "</div>");
+			$('#eventInfo').append("<div id = bandName>" + country + "</div>");
+			$('#eventInfo').append("<div id = bandName>" + date + "</div>");
+
+	};
+
+
+		
 
 		if (bandExists) {
 			var likeButton = $('<input type="button" value="Liked!" onclick="liked();" class="likeButton" type="button">');
@@ -220,62 +274,6 @@ bandLike = function(data) {
 		likeButton.button();
 		var object = $(this);
 
-
-/*		
-		var big = $(this).attr("data-big");
-		var band = $(this).attr("band");
-		name = $(this).attr("band");
-		var object = $(this);
-		var small = $(this).attr("src");
-		var link = $(this).attr("link");
-		setInfo(object,band);
-		var startLeft = $(this).offset().left;
-		var startTop = $(this).offset().top;
-		var startWidth = $(this).width();
-		var startHeight = $(this).height();
-		$('#picture').append(band +"<br>");
-		$('#picture').append("<img id=bigPic" + ">" + "<br>");
-		if (link.slice(0,7) !== "http://") {
-			$('#picture').append("<div id = page><a href='http://" + link + 
-				"'>" + "Last FM Page" + "</a>" + "</div>");
-		}
-		else {
-			$('#picture').append("<div id = page><a href='" + link + 
-				"'>" + "Last FM Page" + "</a>" + "</div>");
-		}
-		$('#picture').append(player);
-		$("#bigPic").css("opacity",0);
-		$('#bigPic').attr("src", big);
-		$("#picture").attr('class', 'show');
-		getSong(band);
-		
-
-		$("#bigPic").load(function() {
-
-		var endLeft = $("#bigPic").offset().left;
-		var endTop = $("#bigPic").offset().top;
-		var finalwidth = $('#bigPic').width();
-		var finalheight = $('#bigPic').height();
-
-		var a = document.createElement("div");
-		a = "<img src = '" + small + "' id=transitionPic" + ">";
-		$('body').append(a);
-		//Animation
-		$("#transitionPic").css("position","absolute");
-		$("#transitionPic").css("left",startLeft)
-		$("#transitionPic").css("top",startTop)
-		$("#transitionPic").css("width",startWidth)
-		$("#transitionPic").css("height",startHeight)
-		$("#transitionPic").animate({
-			left: endLeft,
-			top: endTop,
-			width: finalwidth,
-			height: finalheight},500,function() {
-		$("#bigPic").css("opacity",1);
-		$('#transitionPic').remove();
-		});
-		});*/
-
 	});
 
 
@@ -283,15 +281,12 @@ bandLike = function(data) {
 	$('.link').live("click",function(){
 		$('#bandInfo').html('')
 
+		console.log($(this).attr("theatre"));
+
 		var big = $(this.innerHTML).attr("data-big");
-		$('#Band').css("background-image","url(" + big + ")");
-		$('#Band').css("background-size", "cover");
-		$('#Band').css("background-position", "center");
-		$('#Band').css("-webkit-background-size", "cover");
-		$('#Band').css("-moz-background-size", "cover");
-		$('#Band').css("-o-background-size", "cover");
-		$('#Band').css("-o-background-size", "cover");
 		var band = $(this.innerHTML).attr("band");
+
+		
 		$.ajax({
     		url:"/bbb",
     		data: JSON.stringify({'name':band}),
@@ -305,6 +300,63 @@ bandLike = function(data) {
         		console.log(errorThrown);
     		}
 		})
+
+		$(".chSmall").attr("href","#Bio");
+		$(".chSmall").html("Bio");
+
+		
+		
+
+		if ($(this).attr("event")==="true"){
+
+
+		$(".chSmall").attr("href","#eventPage");
+		$(".chSmall").html("Event Information");
+
+		var big = $(this).attr("data-big");
+		var band = $(this).attr("band");
+		var city = $(this).attr("city");
+		var country = $(this).attr("country");
+		var theatre = $(this).attr("theatre");
+		var date = $(this).attr("date");
+		
+
+		$('#eventPage').css("background-image","url(" + big + ")");
+		$('#eventPage').css("background-size", "cover");
+		$('#eventPage').css("background-position", "center");
+		$('#eventPage').css("-webkit-background-size", "cover");
+		$('#eventPage').css("-moz-background-size", "cover");
+		$('#eventPage').css("-o-background-size", "cover");
+		$('#eventPage').css("-o-background-size", "cover");
+		if (bandExists) {
+			var likeButton = $('<input type="button" value="Liked!" onclick="liked();" class="likeButton" type="button">');
+		}
+		else{
+			var likeButton = $('<input type="button" value="Like" onclick="liked();" class="likeButton" type="button">');
+		}
+		$('#eventInfo').empty();
+		$('#eventInfo').append("<div>" + band + "</div>");
+		$('#eventInfo').append(likeButton);
+		likeButton.button();
+		$('#eventInfo').append("<div>" + theatre + "</div>");
+		$('#eventInfo').append("<div>" + city + "</div>");
+		$('#eventInfo').append("<div>" + country + "</div>");
+		$('#eventInfo').append("<div>" + date + "</div>");
+
+	};
+
+
+		
+
+
+
+		$('#Band').css("background-image","url(" + big + ")");
+		$('#Band').css("background-size", "cover");
+		$('#Band').css("background-position", "center");
+		$('#Band').css("-webkit-background-size", "cover");
+		$('#Band').css("-moz-background-size", "cover");
+		$('#Band').css("-o-background-size", "cover");
+		$('#Band').css("-o-background-size", "cover");
 		if (bandExists) {
 			var likeButton = $('<input type="button" value="Liked!" onclick="liked();" class="likeButton" type="button">');
 		}
@@ -390,6 +442,9 @@ bandLike = function(data) {
 		likeButton.button();
 		var object = $(this.innerHTML);
 		//setInfo(object,band);
+		
+
+
 	});
 
 liked = function(){
@@ -637,15 +692,18 @@ if (currentLocation !== "") {
 	function(data) {
 		data1 = data;
 		$("#shows").html("");
-		$.each(data1.events.event, function(i, item) {		
+		$.each(data1.events.event, function(i, item) {
+			console.log(item);		
 			var artist = document.createElement("div");
 			artist.className = "artist";
+			console.log(item.artists.artist);
 			artist.id = item.artists.artist;
 			var img = $("<div>");
 			img.addClass("img");
 			var imgTag = $("<img>");
 			imgTag.attr("src",item.image[2]["#text"]);
-			imgTag.attr("data-big",item.image[2]["#text"]);
+			imgTag.attr("event","true");
+			imgTag.attr("data-big",item.image[3]["#text"]);
 			imgTag.attr("band", artist.id);
 			imgTag.attr("link",item.url); 
 			imgTag.attr("city",item.venue.location.city); 
@@ -653,7 +711,7 @@ if (currentLocation !== "") {
 			imgTag.attr("theatre",item.venue.name);
 			imgTag.attr("date",item.startDate);
 			var picLink = $("<a>");
-			picLink.attr("href","#Band");
+			picLink.attr("href","#eventPage");
 			picLink.append(imgTag);
 			img.append(picLink);
 
@@ -663,8 +721,17 @@ if (currentLocation !== "") {
 			var link = document.createElement("div");
 			link.className = "link";
 			link.innerHTML = "<a id='" + item.name  + "' data-big=" + 
-					item.image[2]["#text"] + " band='" + artist.id + "' link='"
-					 +item.url + "' href='#Band'>" + artist.id + "</div>";
+					item.image[3]["#text"] + " band='" + artist.id + "' link='"
+					 +item.url + "' href='#eventPage'>" + artist.id + "</div>";
+						imgTag.attr("src",item.image[2]["#text"]);
+			$(link).attr("event","true");
+			$(link).attr("data-big",item.image[3]["#text"]);
+			$(link).attr("band", artist.id);
+			$(link).attr("link",item.url); 
+			$(link).attr("city",item.venue.location.city); 
+			$(link).attr("country",item.venue.location.country);
+			$(link).attr("theatre",item.venue.name);
+			$(link).attr("date",item.startDate);
 			var css = document.createElement("div");
 			css.className = "space";
 			artist.appendChild(css);

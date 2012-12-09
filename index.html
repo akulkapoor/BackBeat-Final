@@ -170,7 +170,7 @@
 				<div data-role="navbar">
 					<ul>
 						<li><a  href="#Band" class="ui-btn-active ui-state-persist" data-transition="none">Music</a></li>
-						<li><a  href="#Bio" data-transition="none">Bio</a></li>
+						<li><a  href="#Bio" class="chSmall" data-transition="none">Bio</a></li>
 						<li><a  href="#Links" data-transition="none">Links</a></li>
 						<li><a  href="#Tickets" data-transition="none"> Tickets</a></li>
 					</ul>
@@ -182,8 +182,8 @@
 
 	<!--  -->	
 
-	<div data-role="page" data-title="Bio" id="Bio">
-			<div data-role="header" data-position="fixed"> 
+	<div data-role="page" data-title="Bio" id="Bio" class="changer">
+			<div data-role="header" data-position="fixed" > 
 				<a  href="#simArtists" data-role="button"> Back </a>
 			</div>
 
@@ -195,7 +195,7 @@
 				<div data-role="navbar">
 					<ul>
 						<li><a  href="#Band" data-transition="none">Music</a></li>
-						<li><a  href="#Bio" class="ui-btn-active ui-state-persist" data-transition="none">Bio</a></li>
+						<li><a  href="#Bio" id="changer" class="ui-btn-active ui-state-persist" data-transition="none">Bio</a></li>
 						<li><a  href="#Links" data-transition="none">Links</a></li>
 						<li><a  href="#Tickets" data-transition="none"> Tickets</a></li>
 					</ul>
@@ -220,7 +220,7 @@
 				<div data-role="navbar">
 					<ul>
 						<li><a  href="#Band" data-transition="none">Music</a></li>
-						<li><a  href="#Bio" data-transition="none">Bio</a></li>
+						<li><a  href="#Bio"  class="chSmall" data-transition="none">Bio</a></li>
 						<li><a  href="#Links"  class="ui-btn-active ui-state-persist" data-transition="none">Links</a></li>
 						<li><a  href="#Tickets" data-transition="none"> Tickets</a></li>
 					</ul>
@@ -245,7 +245,7 @@
 				<div data-role="navbar">
 					<ul>
 						<li><a  href="#Band" data-transition="none">Music</a></li>
-						<li><a  href="#Bio" data-transition="none">Bio</a></li>
+						<li><a  href="#Bio" class="chSmall" data-transition="none">Bio</a></li>
 						<li><a  href="#Links" data-transition="none">Links</a></li>
 						<li><a  href="#Tickets" class="ui-btn-active ui-state-persist" data-transition="none"> Tickets</a></li>
 					</ul>
@@ -268,6 +268,31 @@
 
 			</div>
 	</div>
+
+
+	<div data-role="page" data-title="Event Information" id="eventPage">
+			<div data-role="header" data-position="fixed"> 
+				<a  href="#Shows" data-role="button"> Back </a>
+			</div>
+
+			<div data-role="content" id = "eventInfo" class= "blackBox">
+
+			</div>
+
+			<div data-role="footer" data-position="fixed">
+				<div data-role="navbar">
+					<ul>
+						
+						<li><a  href="#Band" data-transition="none">Music</a></li>
+						<li><a  href="#eventPage" class="ui-btn-active ui-state-persist" data-transition="none">Event Information</a></li>
+						<li><a  href="#Links" data-transition="none">Links</a></li>
+						<li><a  href="#Tickets" data-transition="none"> Tickets</a></li>
+					</ul>
+				</div>
+
+
+			</div>
+		</div> 
 
 
 	<script type="text/javascript" src = "app2.js"></script>

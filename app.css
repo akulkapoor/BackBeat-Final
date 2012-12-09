@@ -47,6 +47,7 @@ a:visited {
 
 .blackBox {
 	background-color: rgba(0,0,0,0.8);
+	border-radius: 1em;
 	color: white;
 	height: 70%;
 	bottom: 0px;
@@ -73,9 +74,8 @@ a:visited {
 .likeButton {
 	font: 24px "Lucida Grande"; 
 	color: white;
-	
 
-}
+	}
 
 body{
 	/*background-image:url("Background.png");*/
