@@ -382,7 +382,7 @@ bandLike = function(data) {
 	$('.link').live("click",function(){
 		$('#bandInfo').html('')
 
-		////console.log($(this).attr("theatre"));
+		//console.log($(this).attr("theatre"));
 
 		var big = $(this.innerHTML).attr("data-big");
 		var band = $(this.innerHTML).attr("band");
