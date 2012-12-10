@@ -232,7 +232,7 @@ bandLike = function(data) {
 
 			var big = $(this).attr("data-big");
 			var band = $(this).attr("band");
-
+			var ticketSite = $(this).attr("ticketSite");
 			var city = $(this).attr("city");
 			var country = $(this).attr("country");
 			var theatre = $(this).attr("theatre");
@@ -260,6 +260,12 @@ bandLike = function(data) {
 			$('#eventInfo').append("<div id = bandName>" + city + "</div>");
 			$('#eventInfo').append("<div id = bandName>" + country + "</div>");
 			$('#eventInfo').append("<div id = bandName>" + date + "</div>");
+
+			if (ticketSite!==""){
+
+				$('#eventInfo').append("<a href="+ticketSite+" id='ticketButton'>Visit Event Page</a>")
+				//$("#ticketButton").button();
+			};
 
 	};
 
@@ -405,6 +411,7 @@ bandLike = function(data) {
 		var country = $(this).attr("country");
 		var theatre = $(this).attr("theatre");
 		var date = $(this).attr("date");
+		var ticketSite = $(this).attr("ticketSite");
 		
 
 		$('#eventPage').css("background-image","url(" + big + ")");
@@ -428,6 +435,12 @@ bandLike = function(data) {
 		$('#eventInfo').append("<div>" + city + "</div>");
 		$('#eventInfo').append("<div>" + country + "</div>");
 		$('#eventInfo').append("<div>" + date + "</div>");
+
+		if (ticketSite!==""){
+
+			$('#eventInfo').append("<a href="+ticketSite+" id='ticketButton'>Visit Event Page</a>")
+				//$("#ticketButton").button();
+		};
 
 	};
 
@@ -798,6 +811,7 @@ if (currentLocation !== "") {
 			var img = $("<div>");
 			img.addClass("img");
 			var imgTag = $("<img>");
+			imgTag.attr("ticketSite",item.website)
 			imgTag.attr("src",item.image[2]["#text"]);
 			imgTag.attr("event","true");
 			imgTag.attr("data-big",item.image[3]["#text"]);
@@ -820,6 +834,7 @@ if (currentLocation !== "") {
 					 +item.url + "' href='#eventPage'>" + nameSeparate(artist.id) + "</div>";
 						imgTag.attr("src",item.image[2]["#text"]);
 			$(link).attr("event","true");
+			$(link).attr("ticketSite",item.website);
 			$(link).attr("data-big",item.image[3]["#text"]);
 			$(link).attr("band", artist.id);
 			$(link).attr("link",item.url); 

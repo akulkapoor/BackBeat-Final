@@ -60,6 +60,10 @@ a:visited {
 	
 }
 
+#ticketButton {
+	margin-top: 15%;
+}
+
 .info {
 	text-transform: none;
 	width: 90%;
