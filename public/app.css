@@ -10,7 +10,7 @@ h1.ui-title {
 	text-align: center;
 	margin: 0px;
 	padding: 0px;
-}
+}	
 
 .ui-page {
 	overflow: auto;
@@ -46,7 +46,7 @@ a:visited {
 }
 
 .blackBox {
-	background-color: rgba(0,0,0,0.8);
+	background-color: rgba(0,0,0,0.6);
 	border-radius: 1em;
 	color: white;
 	height: 70%;

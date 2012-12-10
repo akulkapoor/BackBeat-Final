@@ -1,6 +1,8 @@
 //Akul Kapoor (akulk) and Matt Powell-Palm (mpowellp)
 var data1;
 var data2;
+var myPlayList;
+var trackList = [];
 var player =
 //html code for the jQuery Player
 //not ours, copied from jPLayer site. 
@@ -52,6 +54,7 @@ var player =
 
 var text = new Object();
 text.txt = "";
+var songs = {};
 text.x = 300;
 text.y = 20;
 text.xVel = 0;
@@ -116,38 +119,18 @@ var data2;
 				data2 = data;
 				//$("#linkInfo").html("");
 				var linkNames = ["Amazon Music","Last FM","Musicbrainz Page","MySpace","Wikipedia"];
-				
+				var count = 0
 
 
 				$.each(data2.response.urls, function(i, item) {
-				////console.log(item[0]);
+				console.log(item);
 
 				var link = $("<a>");
 				link.addClass("echoLink");
 				link.attr("href",item);
-				if (item.indexOf("last.fm")!==-1){
-					link.html(linkNames[1]);
-					$("#linkInfo").append(link);
-				};
-				if (item.indexOf("amazon")!==-1){
-					link.html(linkNames[0]);
-					$("#linkInfo").append(link);
-				};
-				if (item.indexOf("myspace")!==-1){
-					link.html(linkNames[3]);
-					$("#linkInfo").append(link);
-				};
-				if (item.indexOf("musicbrainz")!==-1){
-					link.html(linkNames[2]);
-					$("#linkInfo").append(link);
-				};
-				if (item.indexOf("wikipedia")!==-1){
-					link.html(linkNames[4]);
-					$("#linkInfo").append(link);
-				};
-
-				
-				
+				link.html(linkNames[count]);
+				$("#linkInfo").append(link);
+				count++
 
 			
 					
@@ -224,7 +207,7 @@ bandLike = function(data) {
 
 	//Picture Clicks
 	$('.content img').live("click",function(){
-		////console.log($(this).attr("event"));
+		console.log($(this).attr("event"));
 
 
 		
@@ -254,7 +237,6 @@ bandLike = function(data) {
 			var country = $(this).attr("country");
 			var theatre = $(this).attr("theatre");
 			var date = $(this).attr("date");
-			var ticketSite = $(this).attr("ticketSite");
 
 
 			$('#eventPage').css("background-image","url(" + big + ")");
@@ -274,17 +256,10 @@ bandLike = function(data) {
 			$('#eventInfo').append("<div id = bandName>" + band + "</div>");
 			$('#eventInfo').append(likeButton);
 			likeButton.button();
-			$('#eventInfo').append("<div>" + theatre + "</div>");
-			$('#eventInfo').append("<div>" + city + "</div>");
-			$('#eventInfo').append("<div>" + country + "</div>");
-			$('#eventInfo').append("<div>" + date + "</div>");
-
-
-			if (ticketSite!==""){
-
-				$('#eventInfo').append("<a href="+ticketSite+" id='ticketButton'>Visit Event Page</a>")
-				//$("#ticketButton").button();
-			};
+			$('#eventInfo').append("<div id = bandName>" + theatre + "</div>");
+			$('#eventInfo').append("<div id = bandName>" + city + "</div>");
+			$('#eventInfo').append("<div id = bandName>" + country + "</div>");
+			$('#eventInfo').append("<div id = bandName>" + date + "</div>");
 
 	};
 
@@ -309,6 +284,8 @@ bandLike = function(data) {
 		$('#bandInfo').append(band);
 		$('#bandInfo').append(likeButton);
 		likeButton.button();
+		var itunesLink = '<a id ="itunesLink" target="itunes_store"><img src="http://r.mzstatic.com/images/web/linkmaker/badge_itunes-lrg.gif" alt="Overexposed (Deluxe Version) - Maroon 5" style="border: 0;"/></a>'
+		$('#bandInfo').append(itunesLink);
 		$('#bandInfo').append(player);
 		getSong(band);
 		var object = $(this);
@@ -355,7 +332,15 @@ bandLike = function(data) {
 		var object = $(this);
 		//setInfo(object,band);
 
-		
+		var link = $(this).attr("link");
+		if (link.slice(0,7) !== "http://") {
+			$('#linkInfo').append("<div id = page><a href='http://" + link + 
+				"'>" + "Last FM Page" + "</a>" + "</div>");
+		}
+		else {
+			$('#linkInfo').append("<div id = page><a href='" + link + 
+				"'>" + "Last FM Page" + "</a>" + "</div>");
+		}
 		if (bandExists) {
 			var likeButton = $('<input type="button" value="Liked!" onclick="liked();" class="likeButton" type="button">');
 		}
@@ -382,7 +367,7 @@ bandLike = function(data) {
 	$('.link').live("click",function(){
 		$('#bandInfo').html('')
 
-		//console.log($(this).attr("theatre"));
+		console.log($(this).attr("theatre"));
 
 		var big = $(this.innerHTML).attr("data-big");
 		var band = $(this.innerHTML).attr("band");
@@ -396,9 +381,9 @@ bandLike = function(data) {
     		async: false,
     		contentType: "application/json",
     		error: function(jqXHR, textStatus, errorThrown) {
-        		//console.log(jqXHR.status);
-        		//console.log(textStatus);
-        		//console.log(errorThrown);
+        		console.log(jqXHR.status);
+        		console.log(textStatus);
+        		console.log(errorThrown);
     		}
 		})
 
@@ -411,45 +396,38 @@ bandLike = function(data) {
 		if ($(this).attr("event")==="true"){
 
 
-			$(".chSmall").attr("href","#eventPage");
-			$(".chSmall").html("Event Information");
+		$(".chSmall").attr("href","#eventPage");
+		$(".chSmall").html("Event Information");
 
-			var big = $(this).attr("data-big");
-			var band = $(this).attr("band");
-			var city = $(this).attr("city");
-			var country = $(this).attr("country");
-			var theatre = $(this).attr("theatre");
-			var date = $(this).attr("date");
-			var ticketSite = $(this).attr("ticketSite");
-			
+		var big = $(this).attr("data-big");
+		var band = $(this).attr("band");
+		var city = $(this).attr("city");
+		var country = $(this).attr("country");
+		var theatre = $(this).attr("theatre");
+		var date = $(this).attr("date");
+		
 
-			$('#eventPage').css("background-image","url(" + big + ")");
-			$('#eventPage').css("background-size", "cover");
-			$('#eventPage').css("background-position", "center");
-			$('#eventPage').css("-webkit-background-size", "cover");
-			$('#eventPage').css("-moz-background-size", "cover");
-			$('#eventPage').css("-o-background-size", "cover");
-			$('#eventPage').css("-o-background-size", "cover");
-			if (bandExists) {
-				var likeButton = $('<input type="button" value="Liked!" onclick="liked();" class="likeButton" type="button">');
-			}
-			else{
-				var likeButton = $('<input type="button" value="Like" onclick="liked();" class="likeButton" type="button">');
-			}
-			$('#eventInfo').empty();
-			$('#eventInfo').append("<div>" + band + "</div>");
-			$('#eventInfo').append(likeButton);
-			likeButton.button();
-			$('#eventInfo').append("<div>" + theatre + "</div>");
-			$('#eventInfo').append("<div>" + city + "</div>");
-			$('#eventInfo').append("<div>" + country + "</div>");
-			$('#eventInfo').append("<div>" + date + "</div>");
-
-			if (ticketSite!==""){
-
-				$('#eventInfo').append("<a href="+ticketSite+" id='ticketButton'>Visit Event Page</a>")
-				//$("#ticketButton").button();
-			};
+		$('#eventPage').css("background-image","url(" + big + ")");
+		$('#eventPage').css("background-size", "cover");
+		$('#eventPage').css("background-position", "center");
+		$('#eventPage').css("-webkit-background-size", "cover");
+		$('#eventPage').css("-moz-background-size", "cover");
+		$('#eventPage').css("-o-background-size", "cover");
+		$('#eventPage').css("-o-background-size", "cover");
+		if (bandExists) {
+			var likeButton = $('<input type="button" value="Liked!" onclick="liked();" class="likeButton" type="button">');
+		}
+		else{
+			var likeButton = $('<input type="button" value="Like" onclick="liked();" class="likeButton" type="button">');
+		}
+		$('#eventInfo').empty();
+		$('#eventInfo').append("<div>" + band + "</div>");
+		$('#eventInfo').append(likeButton);
+		likeButton.button();
+		$('#eventInfo').append("<div>" + theatre + "</div>");
+		$('#eventInfo').append("<div>" + city + "</div>");
+		$('#eventInfo').append("<div>" + country + "</div>");
+		$('#eventInfo').append("<div>" + date + "</div>");
 
 	};
 
@@ -474,6 +452,10 @@ bandLike = function(data) {
 		$('#bandInfo').append("<div id = bandName>" + band + "</div>");
 		$('#bandInfo').append(likeButton);
 		likeButton.button();
+		likeButton.parent().css("width","95%");
+		likeButton.parent().css("margin-left","2.5%");
+		var itunesLink = '<a id ="itunesLink" target="itunes_store"><img src="http://r.mzstatic.com/images/web/linkmaker/badge_itunes-lrg.gif" alt="Overexposed (Deluxe Version) - Maroon 5" style="border: 0;"/></a>'
+		$('#bandInfo').append(itunesLink);
 		 $('#bandInfo').append(player);
 		getSong(band);
 		var object = $(this.innerHTML);
@@ -521,6 +503,15 @@ bandLike = function(data) {
 		var object = $(this.innerHTML);
 		//setInfo(object,band);
 
+		var link = $(this.innerHTML).attr("link");
+		if (link.slice(0,7) !== "http://") {
+			$('#linkInfo').append("<div id = page><a href='http://" + link + 
+				"'>" + "Last FM Page" + "</a>" + "</div>");
+		}
+		else {
+			$('#linkInfo').append("<div id = page><a href='" + link + 
+				"'>" + "Last FM Page" + "</a>" + "</div>");
+		}
 
 		if (bandExists) {
 			var likeButton = $('<input type="button" value="Liked!" onclick="liked();" class="likeButton" type="button">');
@@ -549,7 +540,7 @@ bandLike = function(data) {
 liked = function(){
 
 	awesome = function() {
-		//console.log("we did it!")
+		console.log("we did it!")
 	}
 	
 	$.ajax({
@@ -559,9 +550,9 @@ liked = function(){
     success: awesome,
     contentType: "application/json",
     error: function(jqXHR, textStatus, errorThrown) {
-        //console.log(jqXHR.status);
-        //console.log(textStatus);
-        //console.log(errorThrown);
+        console.log(jqXHR.status);
+        console.log(textStatus);
+        console.log(errorThrown);
     	}
 	})
 
@@ -634,11 +625,13 @@ getSong = function(name){
 	name = name.toLowerCase();
 	name = replaceAll(name," ","+");
 	$.ajax({
-		url: 'https://itunes.apple.com/search?term=' + replaceAll(name.toLowerCase(),' ','+'),
+		url: 'https://itunes.apple.com/search',
+		data:{ 
+		term: replaceAll(name.toLowerCase(),' ','+'),
 		media: 'music',
-		kind: 'song',
+		entity: "song",
+		attribute: "artistTerm"},
 		dataType: "jsonp",
-		entity: "allArtist",
 		success: callBack2
 	});
 	/*$.ajax({
@@ -655,16 +648,16 @@ getSong = function(name){
 
 
 callBack2 = function(data) {
-	var trackList = []
+	trackList = [];
 	$.each(data.results, function(i, item) {
 		var trackName = item.trackName;
-		if (item.previewUrl != null && trackList.length<5 && trackName != undefined){
-			trackList.push({title:trackName,mp3:item.previewUrl})
+		if (item.previewUrl != null && trackList.length<5 && trackName != undefined && item.previewUrl){
+			trackList.push({title:trackName,mp3:item.previewUrl,itunes:item.trackViewUrl})
 		}
 	});
-	
+	$("#itunesLink").attr("href",trackList[0].itunes + '&partnerId=30&siteID=QNFg4WWuF*o')
 	//Code from jPlayer
-	new jPlayerPlaylist({
+	myPlaylist = new jPlayerPlaylist({
 		jPlayer: "#jquery_jplayer_1",
 		cssSelectorAncestor: "#jp_container_1"
 		}, trackList, {
@@ -700,15 +693,23 @@ callBack2 = function(data) {
 		errorAlerts: false,
 		warningAlerts: false
 		});
+
+	//$("#jquery_jplayer_1").bind($.jPlayer.event.ended,updateLink)
+	$("#jquery_jplayer_1").bind($.jPlayer.event.play,updateLink);
+}
+
+updateLink = function() {
+	console.log("asdad");
+	$("#itunesLink").attr("href",trackList[myPlaylist.current].itunes + '&partnerId=30&siteID=QNFg4WWuF*o')
 }
 
 //Callback for AJAX
-callBack = function(data) {
+/*callBack = function(data) {
 	if (data.response.status.message !== "Success") {
 				getSong(name);
 			}
 	else {
-	var trackList = []
+	trackList = []
 
 	$.each(data.response.songs, function(i, item) {
 		var trackName = item.title;
@@ -758,7 +759,7 @@ callBack = function(data) {
 		warningAlerts: false
 		});
 	}
-}
+}*/
 
 
 
@@ -790,18 +791,13 @@ if (currentLocation !== "") {
 	function(data) {
 		data1 = data;
 		$("#shows").html("");
-		$.each(data1.events.event, function(i, item) {
-			console.log(item);
-			console.log(item.tickets);
-
+		$.each(data1.events.event, function(i, item) {	
 			var artist = document.createElement("div");
 			artist.className = "artist";
-			////console.log(item.artists.artist);
 			artist.id = item.artists.artist;
 			var img = $("<div>");
 			img.addClass("img");
 			var imgTag = $("<img>");
-			imgTag.attr("ticketSite",item.website)
 			imgTag.attr("src",item.image[2]["#text"]);
 			imgTag.attr("event","true");
 			imgTag.attr("data-big",item.image[3]["#text"]);
@@ -817,16 +813,14 @@ if (currentLocation !== "") {
 			img.append(picLink);
 
 
-
-
 			var link = document.createElement("div");
 			link.className = "link";
-			link.innerHTML = "<a id='" + item.name  + "' data-big=" + item.image[3]["#text"] + " band='" + artist.id + "' link='"
+			link.innerHTML = "<a id='" + item.name  + "' data-big=" + 
+					item.image[3]["#text"] + " band='" + artist.id + "' link='"
 					 +item.url + "' href='#eventPage'>" + nameSeparate(artist.id) + "</div>";
 						imgTag.attr("src",item.image[2]["#text"]);
 			$(link).attr("event","true");
 			$(link).attr("data-big",item.image[3]["#text"]);
-			$(link).attr("ticketSite",item.website);
 			$(link).attr("band", artist.id);
 			$(link).attr("link",item.url); 
 			$(link).attr("city",item.venue.location.city); 
@@ -871,7 +865,7 @@ var currentArtist;
 			},
 			function(data) {
 				data2 = data;
-				////console.log(data2);
+				console.log(data2);
 				var musician = document.createElement("div");
 					musician.className = "artist";
 					musician.id = data2.artist.name;
@@ -901,7 +895,7 @@ var currentArtist;
 					musician.appendChild(link);
 					$(musician).append(img);
 					musician.innerHTML += "<br>"
-					////console.log(musician);
+					console.log(musician);
 					$("#similarArtists").html("");
 					$("#similarArtists").append(musician);
 			$.getJSON('http://ws.audioscrobbler.com/2.0/',
@@ -914,7 +908,7 @@ var currentArtist;
 			},
 
 			function(data) {
-				////console.log($("#similarArtists").html());
+				console.log($("#similarArtists").html());
 				data1 = data;
 				$.each(data1.similarartists.artist, function(i, item) {
 				
@@ -947,10 +941,8 @@ var currentArtist;
 					artist1.appendChild(css);
 					artist1.appendChild(link);
 					$(artist1).append(img);
-					artist1.innerHTML += "<br>"
-					////console.log($("#similarArtists").html());	
+					artist1.innerHTML += "<br>"	
 					$("#similarArtists").append(artist1)
-					////console.log($("#similarArtists").html());
 					
 				
 			});
