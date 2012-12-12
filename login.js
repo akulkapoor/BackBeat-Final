@@ -23,7 +23,7 @@ passport.serializeUser(function(user,done) {
 
 passport.deserializeUser(function(id,done) {
   console.log(id);
-  User.findOne(id, function(err,user) {
+  User.findById(id, function(err,user) {
     done(err,user)
   });
 });
@@ -121,6 +121,10 @@ app.post('/bbb', function (req,res) {
       res.end("0");
     }
   }
+})
+
+app.post('/lalala', function(req,res){
+  res.json(req.user.bands);
 })
 
 app.get('/', function(req,res) { res.redirect('fbauth')});

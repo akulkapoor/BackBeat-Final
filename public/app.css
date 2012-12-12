@@ -1,3 +1,4 @@
+/*Akul Kapoor (akulk) and Matt Powell-Palm (mpowellp)*/
 a {
 	font-weight: bold;
 	text-transform: uppercase;
@@ -206,6 +207,10 @@ img:active {
 }
 */
 
+#likedBands {
+	margin-top: 30px;
+}
+
 #bigPic {
 	border-radius: 10px;
 	margin-top: 10px;
@@ -309,8 +314,8 @@ img:active {
 }
 
 #MyBands {
-	/*background-size: contain;*/
-	background-image:url("BackBeatIcon.png");
+	/*background-size: contain;
+	background-image:url("BackBeatIcon.png");*/
 	background-repeat:no-repeat;
 	background-attachment:fixed;
 	background-position:center;
