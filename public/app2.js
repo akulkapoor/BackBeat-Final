@@ -23,7 +23,7 @@ css = function(page,big) {
 //set css for content div of each page
 infocss = function(page,likeButton,band) {
 	page.empty();
-	page.append(band);
+	page.append("<div id = bandName>" + band + "</div>");
 	page.append(likeButton);
 	likeButton.button();
 	likeButton.parent().css("width","95%");

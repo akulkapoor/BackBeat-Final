@@ -1,5 +1,6 @@
 //Akul Kapoor (akulk) and Matt Powell-Palm (mpowellp)
 
+var trackCount = 0;
 
 //Makes the appropriate image for the results div
 makeImage = function(item) {
@@ -36,6 +37,9 @@ makePlaylist = function() {
 		max_dance = dance+0.2;
 	}
 	var decade = $('#select-choice-2 option:selected').val();
+	if (decade !== "None") {
+		decade = parseInt(decade);
+	}
 	$("#allBands :checkbox:checked").each(function(i,item) {
 		if (bandsLiked==="") {
 			bandsLiked += replaceAll($(item).val().toLowerCase()," ","+");
@@ -44,7 +48,6 @@ makePlaylist = function() {
 			bandsLiked += "&artist=" + replaceAll($(item).val().toLowerCase()," ","+");
 		}
 	})
-	console.log(bands)
 	/*$.ajax({
 			url: 'http://developer.echonest.com/api/v4/playlist/static',
 			data: {
@@ -59,16 +62,100 @@ makePlaylist = function() {
 			},
 			success: seeWork
 	})*/
-	$.getJSON('http://developer.echonest.com/api/v4/playlist/static?api_key=JGTFZFCZNOZDOWFED&style=genre&min_danceability=' 
-		+ min_dance.toString() 
-		+ "&max_danceability=" + max_dance.toString() + 
-		"&artist=" + bandsLiked 
-		+"&mood=" + mood + "&type=artist-radio&format=json", seeWork)
+	if (decade=="None") {
+		$.getJSON('http://developer.echonest.com/api/v4/playlist/static?api_key=JGTFZFCZNOZDOWFED&style=genre&min_danceability=' 
+			+ min_dance.toString() 
+			+ "&max_danceability=" + max_dance.toString() + 
+			"&artist=" + bandsLiked 
+			+"&mood=" + mood + "&type=artist-radio&format=json", seeWork)
+	}
+	else {
+		$.getJSON('http://developer.echonest.com/api/v4/playlist/static?api_key=JGTFZFCZNOZDOWFED&style=genre&min_danceability=' 
+			+ min_dance.toString() 
+			+ "&max_danceability=" + max_dance.toString() + 
+			"&artist=" + bandsLiked 
+			+"&mood=" + mood + "&type=artist-radio&format=json&artist_start_year_after=" + 
+			(decade-2).toString() + "&artist_end_year_before=" + (decade+12).toString(), seeWork)
+	}
+}
+var tracksPlaylist = [];
+addPlaylistSong = function(artist,data) {
+	$.each(data.results, function(i,item){
+		if (artist === item.artistName) {
+			tracksPlaylist.push({title:item.trackName + " - " + artist,mp3:item.previewUrl,itunes:item.trackViewUrl})
+			return false;
+		}
+	})
+	trackCount += 1;
+	if (trackCount===12) {
+			userPlaylist = new jPlayerPlaylist({
+			jPlayer: "#jquery_jplayer_2",
+			cssSelectorAncestor: "#jp_container_1"
+			}, tracksPlaylist, {
+			swfPath: "js",
+ 			solution: 'html, flash',
+			supplied: 'mp3',
+			preload: 'metadata',
+			volume: 0.8,
+			muted: false,
+			backgroundColor: '#000000',
+			cssSelectorAncestor: '#jp_container_1',
+			cssSelector: {
+			videoPlay: '.jp-video-play',
+			play: '.jp-play',
+			pause: '.jp-pause',
+			stop: '.jp-stop',
+			seekBar: '.jp-seek-bar',
+			playBar: '.jp-play-bar',
+			mute: '.jp-mute',
+			unmute: '.jp-unmute',
+			volumeBar: '.jp-volume-bar',
+			volumeBarValue: '.jp-volume-bar-value',
+			volumeMax: '.jp-volume-max',
+			currentTime: '.jp-current-time',
+			duration: '.jp-duration',
+			fullScreen: '.jp-full-screen',
+			restoreScreen: '.jp-restore-screen',
+			repeat: '.jp-repeat',
+			repeatOff: '.jp-repeat-off',
+			gui: '.jp-gui',
+			noSolution: '.jp-no-solution'
+			},
+			errorAlerts: false,
+			warningAlerts: false
+			});
+		trackCount=0;
+	}
+	
+}
+
+doItunes = function(track,artist) {
+	$.ajax({
+		url: 'https://itunes.apple.com/search',
+		data:{ 
+		term: replaceAll(track.toLowerCase(),' ','+'),
+		media: 'music',
+		entity: "song",
+		attribute: "songTerm"},
+		dataType: "jsonp",
+		success: function(data) {addPlaylistSong(artist,data)}
+	});
 }
 
 seeWork = function(data) {
-	console.log(data);
+	tracksPlaylist = [];
+	var songs = [];
+	$.each(data.response.songs, function(i,item) {
+		songs.push({trackName: item.title, artist: item.artist_name})
+	})
+	$("#playlist").html('');
+	$("#playlist").append(player);
+	$("#playlist #jquery_jplayer_1").attr("id","jquery_jplayer_2")
+	$.each(songs,function(i,item) {
+		doItunes(item.trackName,item.artist)
+	})
 }
+
 
 //Makes the appropriate link for the results div
 makeLink = function(item) {
@@ -173,7 +260,7 @@ if (currentLocation !== "") {
 
 		
 
-		var genreInput = $("#artistSearch2").val();
+		var genreInput = ($("#artistSearch2").val()).toLowerCase();
 
 		var bandTerms=[];
 	
