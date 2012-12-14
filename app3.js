@@ -29,6 +29,7 @@ loadPlaylists = function(data) {
 	}
 	$('#allPlaylists').listview('refresh');
 	$("#allPlaylists li").on('click',function() {
+	alert("in");
 	for (var j = 0;j<playlists.length; j++) {
 		if ($(this).html() === playlists[j].name) {
 			$("#playlist").html('');
@@ -74,11 +75,12 @@ loadPlaylists = function(data) {
 			});
 			$("#buttonRemove").remove();
 			$("#playlistName").remove();
+			alert("asdasd");
 			$.mobile.changePage("#Playlist")
 		}
 	}
 })
-$("#allPlaylists .ui-btn-inner").on('click',function() {
+$("#allPlaylists .ui-li-link-alt").on('click',function() {
 	var abc ={};
 	abc['name'] = $(this).parent().attr('id');
 	abc['request'] = 'remove';

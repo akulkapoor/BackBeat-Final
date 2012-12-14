@@ -1,6 +1,12 @@
 //Akul Kapoor (akulk) and Matt Powell-Palm (mpowellp)
 var playlists;
 var trackCount = 0;
+var a;
+var userPlaylist;
+
+updateLink3 = function() {
+	$("#itunesLink").attr("href",tracksPlaylist[userPlaylist.current].itunes + '&partnerId=30&siteID=QNFg4WWuF*o')
+}
 
 getPlaylists = function() {
 	console.log()
@@ -20,21 +26,25 @@ getPlaylists = function() {
 
 loadPlaylists = function(data) {
 	playlists=data;
-	var a;
 	$('#allPlaylists').html('');
 	for (var x = 0; x<data.length;x++) {
 		console.log(data[x]);
-		a ='<li data-icon="delete" data-iconpos="right" class="delete">' +'<a data-icon="delete" data-iconpos="right" data-role="button">' + '</a><a id=' + data[x].name + '></a>'+ data[x].name + '</li>'
-		$('#allPlaylists').prepend(a);
+		var b ='<li data-icon="delete" data-iconpos="right" class="delete" id="' + data[x].name + '"><a data-icon="delete" data-iconpos="right" data-role="button">' + '</a><a id=' + data[x].name + '></a>'+ data[x].name + '</li>'
+		$('#allPlaylists').prepend(b);
 	}
 	$('#allPlaylists').listview('refresh');
 	$("#allPlaylists li").on('click',function() {
+	console.log($(this).attr("id"));
 	for (var j = 0;j<playlists.length; j++) {
-		if ($(this).html() === playlists[j].name) {
+		if ($(this).attr("id") === playlists[j].name) {
+			$("#itunesLink").remove();
 			$("#playlist").html('');
+			var itunesLink = '<a id ="itunesLink" target="itunes_store"><img src="http://r.mzstatic.com/images/web/linkmaker/badge_itunes-lrg.gif" alt="Overexposed (Deluxe Version) - Maroon 5" style="border: 0;"/></a>'
+			$("#playlist").append(itunesLink);
 			$("#playlist").append(player);
 			$("#playlist #jquery_jplayer_1").attr("id","jquery_jplayer_2")
-			var a = playlists[j].playlist.playlist;
+			a = playlists[j].playlist.playlist;
+			$("#itunesLink").attr("href",a[0].itunes + '&partnerId=30&siteID=QNFg4WWuF*o')
 
 			userPlaylist = new jPlayerPlaylist({
 			jPlayer: "#jquery_jplayer_2",
@@ -75,14 +85,20 @@ loadPlaylists = function(data) {
 			$("#buttonRemove").remove();
 			$("#playlistName").remove();
 			$.mobile.changePage("#Playlist")
+			$("#jquery_jplayer_2").bind($.jPlayer.event.play,updateLink2);
 		}
 	}
 })
-$("#allPlaylists .ui-btn-inner").on('click',function() {
+
+updateLink2 = function() {
+	$("#itunesLink").attr("href",a[userPlaylist.current].itunes + '&partnerId=30&siteID=QNFg4WWuF*o')
+}
+
+$("#allPlaylists .ui-li-link-alt").on('click',function() {
 	var abc ={};
-	abc['name'] = $(this).parent().attr('id');
+	abc['name'] = $(this).attr('id');
 	abc['request'] = 'remove';
-	$(this).parent().parent().remove();
+	$(this).parent().remove();
 	$.ajax({
     		url:"/saveplaylist",
     		data: JSON.stringify(abc),
@@ -252,6 +268,8 @@ seeWork = function(data) {
 		songs.push({trackName: item.title, artist: item.artist_name})
 	})
 	$("#playlist").html('');
+	var itunesLink = '<a id ="itunesLink" target="itunes_store"><img src="http://r.mzstatic.com/images/web/linkmaker/badge_itunes-lrg.gif" alt="Overexposed (Deluxe Version) - Maroon 5" style="border: 0;"/></a>'
+	$("#playlist").append(itunesLink);
 	$("#playlist").append(player);
 	var a = $('<input type="text" name="name" id="playlistName" value="" placeholder="Playlist Name..."/>');
 	var b = $('<a id="buttonRemove" data-role="button" data-theme="b" onclick="savePlaylist();" href="#Playlist">Save Playlist!</a>')
@@ -265,6 +283,7 @@ seeWork = function(data) {
 	$.each(songs,function(i,item) {
 		doItunes(item.trackName,item.artist)
 	})
+	$("#jquery_jplayer_2").bind($.jPlayer.event.play,updateLink3);
 }
 
 
@@ -282,6 +301,16 @@ makeLink = function(item) {
 allShows=function(){
 var currentLocation;
 $("#shows").html(""); 
+
+if ($.mobile.activePage.attr("id") == "simArtists"){
+			currentLocation = $("#locationSearch").val();
+		}
+else if ($.mobile.activePage.attr("id") == "simLocArtists"){
+			currentLocation = $("#locationSearch1").val();
+		}
+else if ($.mobile.activePage.attr("id") == "Shows"){
+			currentLocation = $("#locationSearch2").val();
+		}
 
 var data1;
 
@@ -361,7 +390,7 @@ if (currentLocation !== "") {
 
 		
 
-		var genreInput = $.trim(($("#artistSearch2").val()).toLowerCase());
+		var genreInput = ($("#artistSearch2").val()).toLowerCase();
 
 		var bandTerms=[];
 	
@@ -450,10 +479,6 @@ if (currentLocation !== "") {
 			console.log("GENRE TIME");
 			
 			}
-
-			if ($('#contents').contents().length === 0){
-				$('#shows').text("Oops! There are no upcoming shows of that genre. Try another!")
-			}
 		});
 	}
 }
@@ -468,6 +493,9 @@ simArts=function(){
 	}
 	else if ($.mobile.activePage.attr("id") == "simLocArtists"){
 		currentArtist = $("#artistSearch1").val();
+	}
+	else if ($.mobile.activePage.attr("id") == "Shows"){
+		currentArtist = $("#artistSearch2").val();
 	}
 			
 
@@ -554,7 +582,9 @@ var currentArtist;
 	else if ($.mobile.activePage.attr("id") == "simLocArtists"){
 			currentArtist = $("#artistSearch1").val();
 		}
-
+	else if ($.mobile.activePage.attr("id") == "Shows"){
+			currentArtist = $("#artistSearch2").val();
+		}
 		$.getJSON('http://ws.audioscrobbler.com/2.0/',
 		{
 			method: "artist.getSimilar",

@@ -146,7 +146,7 @@ app.post('/saveplaylist', function (req,res) {
     req.user.playlists.push(abc);
   }
   req.user.save();
-  res.end();
+  res.end('a');
 })
 
 app.post('/lalala', function(req,res){

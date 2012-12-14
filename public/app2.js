@@ -42,8 +42,6 @@ bandLike = function(data) {
 	}
 }
 
-//***********************Picture Clicks**************************//
-
 	$('.content img').live("click",function(){
 		
 		var big = $(this.innerHTML).attr("data-big");
@@ -72,7 +70,6 @@ bandLike = function(data) {
 
 			$(".chSmall").attr("href","#eventPage");
 			$(".chSmall").html("Event Information");
-			//$("ul").listview("refresh");
 			var big = $(this).attr("data-big");
 			var band = $(this).attr("band");
 			var ticketSite = $(this).attr("ticketSite");
@@ -368,14 +365,11 @@ setInfo = function(object,band,container) {
 
 //Executes a Search and calls particle explosion
 doSearch = function() {
-
-
-
 	simArts();
 	simLocArts();
-	if($.mobile.activePage.attr("id")==="Shows"){
-	allShows();
-	};
+	if ($.mobile.activePage.attr("id") === "Shows") {
+		allShows();
+	}
 	$('#similarArtists').scrollTop(-5);
 	$('#similarLocalArtists').scrollTop(-5);
 	$('#shows').scrollTop(-5);
