@@ -80,31 +80,14 @@ function onPageChange(event,data) {
 					$("#artistSearch1").val($("#artistSearch").val())
 					$("#locationSearch1").val($("#locationSearch").val())
 				}
-				if(a === 'Shows') {
-					$("#artistSearch2").val($("#artistSearch").val())
-					$("#locationSearch2").val($("#locationSearch").val())
-				}
 			}
 			if (b === 'simLocArtists') {
 				if(a === 'simArtists') {
 					$("#artistSearch").val($("#artistSearch1").val())
 					$("#locationSearch").val($("#locationSearch1").val())
 				}
-				if(a === 'Shows') {
-					$("#artistSearch2").val($("#artistSearch1").val())
-					$("#locationSearch2").val($("#locationSearch1").val())
-				}
 			}
-			if (b === 'Shows') {
-				if(a === 'simArtists') {
-					$("#artistSearch").val($("#artistSearch2").val())
-					$("#locationSearch").val($("#locationSearch2").val())
-				}
-				if(a === 'simLocArtists') {
-					$("#artistSearch1").val($("#artistSearch2").val())
-					$("#locationSearch1").val($("#locationSearch2").val())
-				}
-			}
+
 		}
 	}
 }

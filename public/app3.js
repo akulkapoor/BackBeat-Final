@@ -283,16 +283,6 @@ allShows=function(){
 var currentLocation;
 $("#shows").html(""); 
 
-if ($.mobile.activePage.attr("id") == "simArtists"){
-			currentLocation = $("#locationSearch").val();
-		}
-else if ($.mobile.activePage.attr("id") == "simLocArtists"){
-			currentLocation = $("#locationSearch1").val();
-		}
-else if ($.mobile.activePage.attr("id") == "Shows"){
-			currentLocation = $("#locationSearch2").val();
-		}
-
 var data1;
 
 if (currentLocation !== "") {
@@ -371,7 +361,7 @@ if (currentLocation !== "") {
 
 		
 
-		var genreInput = ($("#artistSearch2").val()).toLowerCase();
+		var genreInput = $.trim(($("#artistSearch2").val()).toLowerCase());
 
 		var bandTerms=[];
 	
@@ -460,6 +450,10 @@ if (currentLocation !== "") {
 			console.log("GENRE TIME");
 			
 			}
+
+			if ($('#contents').contents().length === 0){
+				$('#shows').text("Oops! There are no upcoming shows of that genre. Try another!")
+			}
 		});
 	}
 }
@@ -474,9 +468,6 @@ simArts=function(){
 	}
 	else if ($.mobile.activePage.attr("id") == "simLocArtists"){
 		currentArtist = $("#artistSearch1").val();
-	}
-	else if ($.mobile.activePage.attr("id") == "Shows"){
-		currentArtist = $("#artistSearch2").val();
 	}
 			
 
@@ -563,9 +554,7 @@ var currentArtist;
 	else if ($.mobile.activePage.attr("id") == "simLocArtists"){
 			currentArtist = $("#artistSearch1").val();
 		}
-	else if ($.mobile.activePage.attr("id") == "Shows"){
-			currentArtist = $("#artistSearch2").val();
-		}
+
 		$.getJSON('http://ws.audioscrobbler.com/2.0/',
 		{
 			method: "artist.getSimilar",
