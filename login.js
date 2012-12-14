@@ -123,6 +123,32 @@ app.post('/bbb', function (req,res) {
   }
 })
 
+app.post('/getplaylist', function (req,res) {
+  res.json(req.user.playlists)
+})
+
+app.post('/saveplaylist', function (req,res) {
+  var inList = false;
+  var request = req.body['request']
+  console.log(req.user.playlists);
+  var abc = {}
+  abc.name = req.body['name']
+  abc.playlist = req.body['playlist']
+  for (var m = 0; m<req.user.playlists.length; m++) {
+      if (abc.name === req.user.playlists[m].name) {
+        if (request==="remove") {
+          req.user.playlists.splice(m,1);
+        }
+        inList = true;
+      }
+  }
+  if (inList==false) {
+    req.user.playlists.push(abc);
+  }
+  req.user.save();
+  res.end();
+})
+
 app.post('/lalala', function(req,res){
   res.json(req.user.bands);
 })

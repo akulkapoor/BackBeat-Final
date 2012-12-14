@@ -6,6 +6,21 @@ a {
 	text-decoration: none;
 }
 
+.delete {
+	padding-left: 10px;
+	padding-bottom: 10px;
+}
+
+#allPlaylists {
+	color: black;
+	font-size: 15px;
+	cursor: pointer;
+}
+
+#myPlaylists {
+	float: right;
+}
+
 h1.ui-title {
 	width: 100%;
 	text-align: center;
@@ -79,7 +94,7 @@ a:visited {
 .likeButton {
 	font: 24px "Lucida Grande"; 
 	color: white;
-	
+
 	}
 
 body{

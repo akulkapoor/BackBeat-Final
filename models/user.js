@@ -6,7 +6,8 @@ var userSchema = new mongoose.Schema({
 	fbID: String,
 	name: String,
 	email: {type:String, lowercase: true},
-	bands: [String]
+	bands: [String],
+	playlists: []
 });
 
 module.exports = mongoose.model('User',userSchema)

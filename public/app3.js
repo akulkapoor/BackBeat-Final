@@ -1,6 +1,122 @@
 //Akul Kapoor (akulk) and Matt Powell-Palm (mpowellp)
-
+var playlists;
 var trackCount = 0;
+
+getPlaylists = function() {
+	console.log()
+	$.ajax({
+    		url:"/getplaylist",
+    		data: JSON.stringify({name:'abc'}),
+    		type: "POST",
+    		success: loadPlaylists,
+       		contentType: "application/json",
+    		error: function(jqXHR, textStatus, errorThrown) {
+        		console.log(jqXHR.status);
+        		console.log(textStatus);
+        		console.log(errorThrown);
+    		}
+		})
+}
+
+loadPlaylists = function(data) {
+	playlists=data;
+	var a;
+	$('#allPlaylists').html('');
+	for (var x = 0; x<data.length;x++) {
+		console.log(data[x]);
+		a ='<li data-icon="delete" data-iconpos="right" class="delete">' +'<a data-icon="delete" data-iconpos="right" data-role="button">' + '</a><a id=' + data[x].name + '></a>'+ data[x].name + '</li>'
+		$('#allPlaylists').prepend(a);
+	}
+	$('#allPlaylists').listview('refresh');
+	$("#allPlaylists li").on('click',function() {
+	for (var j = 0;j<playlists.length; j++) {
+		if ($(this).html() === playlists[j].name) {
+			$("#playlist").html('');
+			$("#playlist").append(player);
+			$("#playlist #jquery_jplayer_1").attr("id","jquery_jplayer_2")
+			var a = playlists[j].playlist.playlist;
+
+			userPlaylist = new jPlayerPlaylist({
+			jPlayer: "#jquery_jplayer_2",
+			cssSelectorAncestor: "#jp_container_1"
+			}, a, {
+			swfPath: "js",
+ 			solution: 'html, flash',
+			supplied: 'mp3',
+			preload: 'metadata',
+			volume: 0.8,
+			muted: false,
+			backgroundColor: '#000000',
+			cssSelectorAncestor: '#jp_container_1',
+			cssSelector: {
+			videoPlay: '.jp-video-play',
+			play: '.jp-play',
+			pause: '.jp-pause',
+			stop: '.jp-stop',
+			seekBar: '.jp-seek-bar',
+			playBar: '.jp-play-bar',
+			mute: '.jp-mute',
+			unmute: '.jp-unmute',
+			volumeBar: '.jp-volume-bar',
+			volumeBarValue: '.jp-volume-bar-value',
+			volumeMax: '.jp-volume-max',
+			currentTime: '.jp-current-time',
+			duration: '.jp-duration',
+			fullScreen: '.jp-full-screen',
+			restoreScreen: '.jp-restore-screen',
+			repeat: '.jp-repeat',
+			repeatOff: '.jp-repeat-off',
+			gui: '.jp-gui',
+			noSolution: '.jp-no-solution'
+			},
+			errorAlerts: false,
+			warningAlerts: false
+			});
+			$("#buttonRemove").remove();
+			$("#playlistName").remove();
+			$.mobile.changePage("#Playlist")
+		}
+	}
+})
+$("#allPlaylists .ui-btn-inner").on('click',function() {
+	var abc ={};
+	abc['name'] = $(this).parent().attr('id');
+	abc['request'] = 'remove';
+	$(this).parent().parent().remove();
+	$.ajax({
+    		url:"/saveplaylist",
+    		data: JSON.stringify(abc),
+    		type: "POST",
+    		async: false,
+    		contentType: "application/json",
+    		error: function(jqXHR, textStatus, errorThrown) {
+        		console.log(jqXHR.status);
+        		console.log(textStatus);
+        		console.log(errorThrown);
+    		}
+	})
+})
+}
+
+savePlaylist = function() {
+	var name = $("#playlistName").val();
+	var abc ={}
+	abc['playlist'] = userPlaylist;
+	abc['name'] = name;
+	abc['request'] = "add";
+	$.ajax({
+    		url:"/saveplaylist",
+    		data: JSON.stringify(abc),
+    		type: "POST",
+    		async: false,
+    		contentType: "application/json",
+    		error: function(jqXHR, textStatus, errorThrown) {
+        		console.log(jqXHR.status);
+        		console.log(textStatus);
+        		console.log(errorThrown);
+    		}
+		})
+}
 
 //Makes the appropriate image for the results div
 makeImage = function(item) {
@@ -48,20 +164,7 @@ makePlaylist = function() {
 			bandsLiked += "&artist=" + replaceAll($(item).val().toLowerCase()," ","+");
 		}
 	})
-	/*$.ajax({
-			url: 'http://developer.echonest.com/api/v4/playlist/static',
-			data: {
-				api_key: "JGTFZFCZNOZDOWFED",
-				style: genre,
-				min_danceability: min_dance,
-				artist: ['onerepublic','train'],
-				max_danceability: max_dance,
-				mood: mood,
-				type: "artist-radio",
-				format: "json"
-			},
-			success: seeWork
-	})*/
+	
 	if (decade=="None") {
 		$.getJSON('http://developer.echonest.com/api/v4/playlist/static?api_key=JGTFZFCZNOZDOWFED&style=genre&min_danceability=' 
 			+ min_dance.toString() 
@@ -150,6 +253,14 @@ seeWork = function(data) {
 	})
 	$("#playlist").html('');
 	$("#playlist").append(player);
+	var a = $('<input type="text" name="name" id="playlistName" value="" placeholder="Playlist Name..."/>');
+	var b = $('<a id="buttonRemove" data-role="button" data-theme="b" onclick="savePlaylist();" href="#Playlist">Save Playlist!</a>')
+	$("#buttonRemove").remove();
+	$("#playlistName").remove();
+	$("#Playlist").append(a);
+	$("#Playlist").append(b);
+	a.textinput();
+	b.button();
 	$("#playlist #jquery_jplayer_1").attr("id","jquery_jplayer_2")
 	$.each(songs,function(i,item) {
 		doItunes(item.trackName,item.artist)

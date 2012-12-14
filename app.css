@@ -6,6 +6,21 @@ a {
 	text-decoration: none;
 }
 
+.delete {
+	padding-left: 10px;
+	padding-bottom: 10px;
+}
+
+#allPlaylists {
+	color: black;
+	font-size: 15px;
+	cursor: pointer;
+}
+
+#myPlaylists {
+	float: right;
+}
+
 h1.ui-title {
 	width: 100%;
 	text-align: center;
@@ -166,6 +181,7 @@ body{
 	padding-right: 15px;
 	padding-left: 15px;
 	text-transform: uppercase;
+	padding:2.5%;
 }
 
 .link:active {

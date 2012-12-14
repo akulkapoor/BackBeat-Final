@@ -7,7 +7,7 @@
 		<script src="http://code.jquery.com/jquery-1.8.2.min.js"> </script>
 		<script src="js/transition.js"> </script>
 		<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"> </script>
-		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css"/>
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css"/>	
 		<link href="app.css" rel="stylesheet" type="text/css"/>
 		<script type="text/javascript" src="js/demo.js"></script>
 		<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
@@ -260,12 +260,13 @@
 		
 			<div data-role="header" data-position="fixed"> 
 				<a href="#simArtists" data-role="button"> Back </a>
+				<a href="#MyPlaylists" data-role="button" id="myPlaylists" onclick="getPlaylists();"> My Playlists </a>
 			</div>
 
 			<div data-role="content" id = "likedBands">
 				<div data-role="collapsible" data-theme="b" id="likedBands">
 					<h2> Bands </h2>
-					<ul data-role="listview" id="allBands">
+					<ul data-role="listview" id="allBands" data-filter="true">
 					</ul>
 				</div>
 				<label for="select-choice-0" class="select">Mood:</label>
@@ -299,6 +300,7 @@
 
 				<label for="select-choice-2" class="select">Decade:</label>
 				<select name="select-choice-2" id="select-choice-2">
+					<option value="None">None</option>
 					<option value="1930">1930-1940</option>
 					<option value="1940">1940-1950</option>
 					<option value="1950">1950-1960</option>
@@ -308,11 +310,41 @@
 					<option value="1990">1990-2000</option>
 					<option value="2000">2000-Present</option>
 				</select>
-				<input type="button" value="Make Playlist!" data-theme="b" onclick="makePlaylist();">
+				<a data-role="button" data-theme="b" onclick="makePlaylist();" href="#Playlist">Make Playlist!</a>
 			</div>
 
 		</div>
 	</div>
+
+
+	<div data-role="page" data-title="Playlist" id="Playlist">
+		
+			<div data-role="header" data-position="fixed"> 
+				<a href="#MyBands" data-role="button"> Back </a>
+			</div>
+
+			<div data-role="content" id = "playlist">
+				
+			</div>
+		</div>
+	</div>
+
+	<div data-role="page" data-title="MyPlaylists" id="MyPlaylists">
+		
+			<div data-role="header" data-position="fixed"> 
+				<a href="#MyBands" data-role="button"> Back </a>
+			</div>
+
+			<div data-role="content" id = "playlists">
+				<div data-role="collapsible" data-theme="b" id="savedPlaylists">
+					<h2> Playlists </h2>
+					<ul data-role="listview" data-split-icon="delete" id="allPlaylists" data-filter="true">
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 
 	<div data-role="page" data-title="Event Information" id="eventPage">
