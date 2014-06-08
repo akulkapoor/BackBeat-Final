@@ -7,7 +7,7 @@ module.exports = {
 			url: "http://cryptic-island-9995.herokuapp.com/"
 			//url: "http://128.237.134.226:3000/"
 		},
-		dbUrl: "mongodb://heroku_app9824157:cv0972p4e1hcf7gl1jg745pkgh@ds045557.mongolab.com:45557/heroku_app9824157"
+		dbUrl: "mongodb://heroku_app9824157_A:UezIyhtkWIlQKkzObEHIMBMfKAfeHpye@ds045557.mongolab.com:45557/heroku_app9824157"
 		//dbUrl: "mongodb://128.237.134.226/abc"	
 	}
 }
